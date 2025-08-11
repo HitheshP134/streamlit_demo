@@ -6,6 +6,7 @@ def main():
         st.write("Home")
         st.write("Dashboard")
         st.write("Update")
+        st.write("SQL")
     
 
 if __name__=='__main__':
