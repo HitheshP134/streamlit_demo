@@ -1,0 +1,34 @@
+name: deploy using snowflake-cli
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  version:
+     name: "Check Snowflake CLI version"
+     runs-on: ubuntu-latest
+     env:
+      SNOW_SQL_ACCOUNT: ${{ secrets.ACCOUNT }}
+      SNOW_SQL_USER: ${{ secrets.USER }}
+      SNOW_SQL_PASSWORD: ${{ secrets.PASSWORD }}
+
+     steps:
+        - name: Checkout repo
+          uses: actions/checkout@v4
+
+        - uses: Snowflake-Labs/snowflake-cli-action@v1
+          with:
+            cli-version: "latest"
+
+        - name: Test connection 
+          working-directory: ./
+          shell: bash
+          run: |
+            snow connection test --connection cicd --password "${SNOW_SQL_PASSWORD}" --account "${SNOW_SQL_ACCOUNT}" --user "${SNOW_SQL_USER}" --database D_HARATO_DB --schema STREAMLIT_CICD --warehouse d_harato_wh --role accountadmin
+
+        - name: Deploy
+          working-directory: ./
+          shell: bash
+          run: |
+           snow streamlit deploy --replace --connection cicd --password "${SNOW_SQL_PASSWORD}" --account "${SNOW_SQL_ACCOUNT}" --user "${SNOW_SQL_USER}" --database D_HARATO_DB --schema STREAMLIT_CICD --warehouse d_harato_wh --role accountadmin
