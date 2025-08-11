@@ -1,18 +1,12 @@
+# snowflake.yml
 definition_version: 2
+
 entities:
-  my_streamlit:
-    type: streamlit
-    identifier: streamlit_app
-    stage: my_streamlit_stage
-    query_warehouse: COMPUTE_WH
-    main_file: app.py
-    pages_dir: pages/
-    external_access_integrations:
-      - test_egress
-    secrets:
-      dummy_secret: "db.schema.dummy_secret"
-    imports:
-      - "@my_stage/foo.py"
-    artifacts:
-      - common/hello.py
-      - environment.yml
+    my_streamlit:
+        type: streamlit
+        identifier: streamlit_db.public.streamlit_app  #name of the app which you can see under streamlit section on UI
+        stage: streamlit_db.streamlit_stage.streamlit_stage #place where app.py will be stored along with env.yml
+        main_file: app.py
+        query_warehouse: COMPUTE_WH
+        artifacts:
+            - app.py
