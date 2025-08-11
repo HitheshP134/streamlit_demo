@@ -5,6 +5,7 @@ def main():
         st.title("Main menu ")
         st.write("Home")
         st.write("Dashboard")
+        st.write("Update")
     
 
 if __name__=='__main__':
